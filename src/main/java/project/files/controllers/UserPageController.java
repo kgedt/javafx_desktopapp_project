@@ -1,5 +1,6 @@
 package project.files.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -12,6 +13,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import project.files.Helper;
 import project.files.customer.Customer;
+import project.files.customer.Order;
 import project.files.customer.Product;
 import project.files.database.DbHandler;
 import project.files.final_project.StartApplication;
@@ -59,11 +61,30 @@ public class UserPageController {
     private GridPane gridPane;
 
     @FXML
+    private Button cartButton;
+
+    @FXML
+    private Button addCartButton;
+
+
+    @FXML
+    void cartClick(ActionEvent event) throws IOException {
+        Helper.changeScene(cartButton, cartPage);
+    }
+
+    @FXML
+    void addCartClick(ActionEvent event) {
+
+    }
+
+    @FXML
     void logoutClick() throws IOException {
         Helper.changeScene(logoutButton, authorizePage);
     }
 
     private List<Product> productList;
+
+    private List<Order> orderList;
 
 
     @FXML
@@ -80,7 +101,6 @@ public class UserPageController {
         for (int i = 0; i < productList.size(); i++) {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(StartApplication.class.getResource(productCard));
-
 
             AnchorPane anchorPane = fxmlLoader.load();
 

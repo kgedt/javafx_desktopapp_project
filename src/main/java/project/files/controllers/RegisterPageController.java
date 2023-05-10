@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import project.files.Helper;
+import project.files.database.DbConst;
 import project.files.database.DbHandler;
 
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class RegisterPageController {
     }
 
     @FXML
-    void registerClick(ActionEvent event) {
+    void registerClick(ActionEvent event) throws IOException {
         String login = loginField.getText().strip();
         String password = passwordField.getText().strip();
         String firstName = firstnameField.getText().strip();
@@ -56,6 +57,8 @@ public class RegisterPageController {
 
         if (isValidFields(login, password, firstName, lastName)) {
             DbHandler.addCustomer(login, password, 0.0, firstName, lastName);
+            Helper.setCustomerInfo(login);
+            Helper.changeScene(registerButton, userPage);
         }
     }
 
@@ -66,6 +69,7 @@ public class RegisterPageController {
     }
 
     boolean isValidFields(String login, String password, String firstName, String lastName) {
+
         if (!login.matches("[A-Za-z0-9]{3,20}")) {
             errorText.setText("Only Latin characters and numbers\n" +
                     "Length is 3-20 characters");
@@ -75,9 +79,14 @@ public class RegisterPageController {
             errorText.setText("The first letter of the name is capitalized\n" +
                     "Latin characters only\n" +
                     "Length is 3-20 characters");
-        } else return true;
+        } else if (DbHandler.customerIsExist(login)) {
+            errorText.setText("User with the same login already exists");
+        } else
+            return true;
+
         return false;
     }
+
 
 
 }

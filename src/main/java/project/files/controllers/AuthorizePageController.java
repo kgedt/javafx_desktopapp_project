@@ -49,18 +49,18 @@ public class AuthorizePageController {
 
     @FXML
     void signInClick(ActionEvent event) throws NoSuchAlgorithmException, IOException {
-        String entered_login = loginField.getText();
-        String entered_pass = passwordField.getText();
+        String enteredLogin = loginField.getText();
+        String enteredPass = passwordField.getText();
 
-        if (!isValidFields(entered_login, entered_pass)) {
+        if (!isValidFields(enteredLogin, enteredPass)) {
             errorText.setText("Fields are empty");
             return;
         }
         try {
-            String true_pass = DbHandler.getCustomerColumn(entered_login, "password");
+            String truePass = DbHandler.getCustomerColumn(enteredLogin, "password");
 
-            if (Helper.cypher(entered_pass).equals(true_pass)) {
-                setCustomerInfo(entered_login);
+            if (Helper.cypher(enteredPass).equals(truePass)) {
+                Helper.setCustomerInfo(enteredLogin);
                 Helper.changeScene(signInButton, userPage);
             } else {
                 errorText.setText("Password is incorrect");
@@ -75,17 +75,8 @@ public class AuthorizePageController {
 
     }
 
-    private void setCustomerInfo(String entered_login) {
-        Customer.id = Integer.valueOf(DbHandler.getCustomerColumn(entered_login, CUSTOMER_ID));
-        Customer.login = DbHandler.getCustomerColumn(entered_login, CUSTOMER_LOGIN);
-        Customer.firstName = DbHandler.getCustomerColumn(entered_login, CUSTOMER_FIRSTNAME);
-        Customer.lastName = DbHandler.getCustomerColumn(entered_login, CUSTOMER_LASTNAME);
-        Customer.balance = Double.valueOf(DbHandler.getCustomerColumn(entered_login, CUSTOMER_BALANCE));
-    }
-
     private boolean isValidFields(String login, String password) {
-        if (login.isEmpty() || password.isEmpty()) return false;
-        return true;
+        return !login.isEmpty() && !password.isEmpty();
     }
 
 }

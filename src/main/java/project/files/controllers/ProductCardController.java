@@ -2,7 +2,10 @@ package project.files.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,7 +29,31 @@ public class ProductCardController {
     @FXML
     private Label price;
 
+    @FXML
+    private Button addButton;
+
+    @FXML
+    private Button removeButton;
+
+    @FXML
+    private Label quantityLabel;
+
+    @FXML
+    void addClick(ActionEvent event) {
+        quantity++;
+        quantityLabel.setText(String.valueOf(quantity));
+    }
+    @FXML
+    void removeClick(ActionEvent event) {
+        if (quantity >= 1) {
+            quantity--;
+            quantityLabel.setText(String.valueOf(quantity));
+        }
+    }
+
     private Product product;
+
+    private Integer quantity = 0;
 
     public void setProduct(Product prod) {
         this.product = prod;

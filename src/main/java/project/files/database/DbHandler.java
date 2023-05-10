@@ -1,14 +1,13 @@
 package project.files.database;
 
-import javafx.beans.Observable;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import org.controlsfx.property.BeanPropertyUtils;
 import project.files.customer.Product;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PrimitiveIterator;
 
 import static project.files.Helper.cypher;
 import static project.files.database.DbConst.*;
@@ -49,8 +48,7 @@ public class DbHandler {
             prSt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+//            e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -91,12 +89,11 @@ public class DbHandler {
         try (PreparedStatement prSt = getDbConnection().prepareStatement(selectQuery)) {
             ResultSet rs = prSt.executeQuery();
             while (rs.next()) {
-                Product prod = new Product(rs.getInt(PRODUCT_ID), rs.getString(PRODUCT_TITLE), rs.getDouble(PRODUCT_PRICE));
-//                prod.setId(rs.getInt(PRODUCT_ID));
+                //                prod.setId(rs.getInt(PRODUCT_ID));
 //                prod.setTitle(rs.getString(PRODUCT_TITLE));
 //                prod.setPrice(rs.getDouble(PRODUCT_PRICE));
 
-                return prod;
+                return new Product(rs.getInt(PRODUCT_ID), rs.getString(PRODUCT_TITLE), rs.getDouble(PRODUCT_PRICE));
             }
         }
         return new Product();
@@ -111,14 +108,37 @@ public class DbHandler {
         return resultList;
     }
 
-//    public static ObservableList<Product> getAllProductList() throws SQLException {
-//        ObservableList<Product> resultList = FXCollections.observableArrayList();
-//        for (int i = 1; i <= maxId(PRODUCT_TABLENAME, PRODUCT_ID); i++) {
-//            resultList.add(getProductById(i));
-//        }
-//
-//        return resultList;
-//    }
+    public static List<Product> getOrdersById(Integer id) {
+        List<Product> resultList = new ArrayList<>();
+        String selectQuery = " SELECT products.product_id, products.title, products.price " +
+        "FROM orders " +
+        " INNER JOIN products ON orders.product_id = products.product_id " +
+        " INNER JOIN customers ON orders.customer_id = customers.customer_id " +
+        " WHERE orders.customer_id = " + id + ";";
+
+        try (PreparedStatement prSt = getDbConnection().prepareStatement(selectQuery)) {
+            ResultSet rs = prSt.executeQuery();
+
+            while (rs.next()) {
+                resultList.add(new Product(rs.getInt(PRODUCT_ID),
+                                            rs.getString(PRODUCT_TITLE),
+                                            rs.getDouble(PRODUCT_PRICE)));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    /*
+    SELECT products.product_id, products.title, products.price
+FROM orders
+INNER JOIN products ON orders.product_id = products.product_id
+INNER JOIN customers ON orders.customer_id = customers.customer_id
+WHERE orders.customer_id = 1;
+    */
 
     public static int maxId(String tableName, String idName) throws SQLException {
         int res = -1;
@@ -135,7 +155,23 @@ public class DbHandler {
         return res;
     }
 
+    public static boolean customerIsExist(String enteredLogin) {
+        String selectQuery = "SELECT " + CUSTOMER_LOGIN + " " +
+                " FROM " + CUSTOMER_TABLENAME + ";";
+        boolean result = false;
+        try (PreparedStatement prSt = getDbConnection().prepareStatement(selectQuery)) {
+            ResultSet rs = prSt.executeQuery();
+            while (rs.next()) {
+                if (enteredLogin.equals(rs.getString("login")))
+                    return true;
+            }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 
 }
 
@@ -145,7 +181,7 @@ public class DbHandler {
 /*
 CREATE TABLE Customers (
 	customer_id SERIAL PRIMARY KEY,
-	login TEXT NOT NULL,
+	login TEXT NOT NULL UNIQUE,
 	password TEXT NOT NULL,
 	balance DECIMAL(20, 2) DEFAULT 0.0,
 	first_name TEXT NOT NULL,

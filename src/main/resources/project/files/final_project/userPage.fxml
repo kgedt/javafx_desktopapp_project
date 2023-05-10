@@ -55,10 +55,17 @@
                   </HBox>
                </top>
                <right>
-                  <VBox prefHeight="506.0" prefWidth="153.0" BorderPane.alignment="CENTER">
+                  <VBox alignment="CENTER" prefHeight="506.0" prefWidth="153.0" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets />
                      </BorderPane.margin>
+                     <children>
+                        <Button fx:id="cartButton" mnemonicParsing="false" onAction="#cartClick" text="CART">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Button>
+                     </children>
                   </VBox>
                </right>
                <left>
@@ -72,10 +79,17 @@
                   </VBox>
                </left>
                <bottom>
-                  <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets top="10.0" />
                      </BorderPane.margin>
+                     <children>
+                        <Button fx:id="addCartButton" mnemonicParsing="false" onAction="#addCartClick" prefHeight="60.0" prefWidth="204.0" text="add all to cart">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
                   </HBox>
                </bottom>
                <center>
