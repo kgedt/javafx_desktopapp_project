@@ -52,15 +52,6 @@
                         </Label>
                     </children>
                 </AnchorPane>
-            <HBox alignment="CENTER" prefHeight="250.0" prefWidth="188.0">
-               <children>
-                  <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buyClick" text="BUY">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Button>
-               </children>
-            </HBox>
             </children>
         </HBox>
     </children>

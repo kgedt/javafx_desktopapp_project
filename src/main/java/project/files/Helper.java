@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import project.files.customer.Customer;
+import project.files.customer.Order;
+import project.files.customer.Product;
 import project.files.database.DbHandler;
 import project.files.final_project.StartApplication;
 
@@ -54,6 +56,17 @@ public class Helper {
         Customer.firstName = DbHandler.getCustomerColumn(enteredLogin, CUSTOMER_FIRSTNAME);
         Customer.lastName = DbHandler.getCustomerColumn(enteredLogin, CUSTOMER_LASTNAME);
         Customer.balance = Double.valueOf(DbHandler.getCustomerColumn(enteredLogin, CUSTOMER_BALANCE));
+    }
+
+    public static double calculateTotalCost() {
+        double res = 0.0;
+        for (int i = 0; i < Order.orderList.size(); i++) {
+            Product curProduct = Order.orderList.get(i);
+
+            res += curProduct.getPrice() * curProduct.getOrderQuantity();
+        }
+
+        return res;
     }
 
 }

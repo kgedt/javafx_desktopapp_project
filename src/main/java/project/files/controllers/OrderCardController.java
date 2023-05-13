@@ -46,6 +46,7 @@ public class OrderCardController {
         quantity++;
         quantityLabel.setText(String.valueOf(quantity));
         Order.orderList.get(order_ind).setOrderQuantity(quantity);
+        Order.totalCost += product.getPrice();
     }
     @FXML
     void removeClick(ActionEvent event) {
@@ -53,7 +54,7 @@ public class OrderCardController {
             quantity--;
             quantityLabel.setText(String.valueOf(quantity));
             Order.orderList.get(order_ind).setOrderQuantity(quantity);
-
+            Order.totalCost -= product.getPrice();
         }
     }
 

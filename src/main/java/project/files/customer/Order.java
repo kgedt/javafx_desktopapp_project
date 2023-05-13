@@ -7,6 +7,7 @@ public class Order {
     private Integer customer_id;
     private Integer product_id;
     private Integer quantity;
+    public static Double totalCost = 0.0;
 
     public static List<Product> orderList;
 
