@@ -21,6 +21,7 @@ import project.files.final_project.StartApplication;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -73,18 +74,23 @@ public class UserPageController {
     }
 
     @FXML
-    void addCartClick(ActionEvent event) {
+    void addCartClick(ActionEvent event) throws SQLException, IOException {
+        List<Order> orders = new ArrayList<>();
 
+        for (int i = 0; i < Product.productList.size(); i++) {
+            Product cur = Product.productList.get(i);
+            if (cur.getMarketQuantity() > 0) {
+                orders.add(new Order(cur.getOrderId(), Customer.id, cur.getProduct_id(), cur.getMarketQuantity()));
+            }
+        }
+        DbHandler.addOrders(orders);
+        Helper.changeScene(addCartButton, cartPage);
     }
 
     @FXML
     void logoutClick() throws IOException {
         Helper.changeScene(logoutButton, authorizePage);
     }
-
-    private List<Product> productList;
-
-    private List<Order> orderList;
 
 
     @FXML
@@ -96,16 +102,16 @@ public class UserPageController {
         circleImage.setFill(new ImagePattern(im));
         circleImage.setEffect(new DropShadow(+25d, 0d, +2d, Color.DARKSEAGREEN));
 
-        this.productList = DbHandler.getAllProductList();
+        Product.productList = DbHandler.getAllProductList();
 
-        for (int i = 0; i < productList.size(); i++) {
+        for (int i = 0; i < Product.productList.size(); i++) {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(StartApplication.class.getResource(productCard));
 
             AnchorPane anchorPane = fxmlLoader.load();
 
             ProductCardController productCardController = fxmlLoader.getController();
-            productCardController.setProduct(productList.get(i));
+            productCardController.setProduct(i);
             productCardController.setData();
 
             gridPane.add(anchorPane, 1, i);

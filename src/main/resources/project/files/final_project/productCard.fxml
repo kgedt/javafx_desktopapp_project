@@ -45,7 +45,7 @@
             </HBox>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="quantityLabel" alignment="CENTER" layoutX="67.0" layoutY="99.0" text="0">
+                  <Label fx:id="quantityLabel" alignment="CENTER" layoutX="4.0" layoutY="99.0" prefHeight="53.0" prefWidth="133.0" text="0">
                      <font>
                         <Font name="System Bold" size="36.0" />
                      </font>

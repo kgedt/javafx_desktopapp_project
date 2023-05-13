@@ -22,5 +22,6 @@ public class DbConst {
     public static final String ORDER_ID = "order_id";
     public static final String ORDER_CUSTOMER_ID = "customer_id";
     public static final String ORDER_PRODUCT_ID = "product_id";
+    public static final String ORDER_QUANTITY = "quantity";
 
 }

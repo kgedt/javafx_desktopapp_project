@@ -1,27 +1,31 @@
 package project.files.customer;
 
+import java.util.List;
+
 public class Order {
-    private Integer id;
+    private Integer order_id;
     private Integer customer_id;
     private Integer product_id;
-    private boolean is_bought;
+    private Integer quantity;
 
-    public Order(Integer id, Integer customer_id, Integer product_id, boolean is_bought) {
-        this.id = id;
+    public static List<Product> orderList;
+
+    public Order(Integer order_id, Integer customer_id, Integer product_id, Integer quantity) {
+        this.order_id = order_id;
         this.customer_id = customer_id;
         this.product_id = product_id;
-        this.is_bought = is_bought;
+        this.quantity = quantity;
     }
 
     public Order() {
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getOrder_id() {
+        return order_id;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.order_id = id;
     }
 
     public Integer getCustomer_id() {
@@ -40,12 +44,12 @@ public class Order {
         this.product_id = product_id;
     }
 
-    public boolean isIs_bought() {
-        return is_bought;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setIs_bought(boolean is_bought) {
-        this.is_bought = is_bought;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public boolean equals(Order another_order) {

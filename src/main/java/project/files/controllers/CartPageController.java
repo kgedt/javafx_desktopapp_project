@@ -2,8 +2,8 @@ package project.files.controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import project.files.Helper;
 import project.files.customer.Customer;
+import project.files.customer.Order;
 import project.files.customer.Product;
 import project.files.database.DbHandler;
 import project.files.final_project.StartApplication;
@@ -39,21 +40,28 @@ public class CartPageController {
     @FXML
     void backClick(ActionEvent event) throws IOException {
         Helper.changeScene(backButton, userPage);
+        Product curProd;
+
+        for (int i = 0; i < Order.orderList.size(); i++) {
+            curProd = Order.orderList.get(i);
+            DbHandler.orderUpdate(curProd.getOrderId(), curProd.getOrderQuantity());
+        }
     }
+
 
     @FXML
     void initialize() throws IOException {
-        List<Product> productList = DbHandler.getOrdersById(Customer.id);
+        Order.orderList = DbHandler.getOrdersById(Customer.id);
 
-        for (int i = 0; i < productList.size(); i++) {
+        for (int i = 0; i < Order.orderList.size(); i++) {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(StartApplication.class.getResource(productCard));
+            fxmlLoader.setLocation(StartApplication.class.getResource(orderCard));
 
             AnchorPane anchorPane = fxmlLoader.load();
 
-            ProductCardController productCardController = fxmlLoader.getController();
-            productCardController.setProduct(productList.get(i));
-            productCardController.setData();
+            OrderCardController orderCardController = fxmlLoader.getController();
+            orderCardController.setProduct(i);
+            orderCardController.setData();
 
             grid.add(anchorPane, 1, i);
         }

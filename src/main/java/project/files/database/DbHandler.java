@@ -1,13 +1,12 @@
 package project.files.database;
 
-import org.controlsfx.property.BeanPropertyUtils;
+import project.files.customer.Order;
 import project.files.customer.Product;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.PrimitiveIterator;
 
 import static project.files.Helper.cypher;
 import static project.files.database.DbConst.*;
@@ -110,7 +109,7 @@ public class DbHandler {
 
     public static List<Product> getOrdersById(Integer id) {
         List<Product> resultList = new ArrayList<>();
-        String selectQuery = " SELECT products.product_id, products.title, products.price " +
+        String selectQuery = " SELECT products.product_id, products.title, products.price, orders.quantity, orders.order_id " +
         "FROM orders " +
         " INNER JOIN products ON orders.product_id = products.product_id " +
         " INNER JOIN customers ON orders.customer_id = customers.customer_id " +
@@ -122,7 +121,9 @@ public class DbHandler {
             while (rs.next()) {
                 resultList.add(new Product(rs.getInt(PRODUCT_ID),
                                             rs.getString(PRODUCT_TITLE),
-                                            rs.getDouble(PRODUCT_PRICE)));
+                                            rs.getDouble(PRODUCT_PRICE),
+                                            rs.getInt(ORDER_QUANTITY),
+                                            rs.getInt(ORDER_ID)));
             }
 
         } catch (SQLException e) {
@@ -130,6 +131,43 @@ public class DbHandler {
         }
 
         return resultList;
+    }
+
+    public static void addOrders(List<Order> orders) {
+        String insertQuery = "INSERT INTO orders (customer_id, product_id, quantity) " +
+                             " VALUES (?, ?, ?);";
+
+        for (Order cur: orders) {
+            try (PreparedStatement prSt = getDbConnection().prepareStatement(insertQuery)) {
+                int cnt = 1;
+                prSt.setInt(cnt++, cur.getCustomer_id());
+                prSt.setInt(cnt++, cur.getProduct_id());
+                prSt.setInt(cnt++, cur.getQuantity());
+
+                prSt.executeUpdate();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public static void orderUpdate(Integer order_id, Integer quantity) {
+        String query = "";
+        if (quantity != 0) {
+            query = "UPDATE orders " +
+                    "SET quantity = " + quantity +
+                    "WHERE order_id = " + order_id + ";";
+        } else {
+            query = "DELETE FROM orders WHERE order_id = " + order_id + ";";
+        }
+
+        try(PreparedStatement prSt = getDbConnection().prepareStatement(query)) {
+            prSt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     /*

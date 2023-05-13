@@ -1,18 +1,18 @@
 package project.files.controllers;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import project.files.customer.Order;
 import project.files.customer.Product;
 
-public class ProductCardController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class OrderCardController {
 
     @FXML
     private ResourceBundle resources;
@@ -36,32 +36,43 @@ public class ProductCardController {
     private Button removeButton;
 
     @FXML
+    private Button buyButton;
+
+    @FXML
     private Label quantityLabel;
 
     @FXML
     void addClick(ActionEvent event) {
         quantity++;
         quantityLabel.setText(String.valueOf(quantity));
-        Product.productList.get(prod_ind).setMarketQuantity(quantity);
+        Order.orderList.get(order_ind).setOrderQuantity(quantity);
     }
     @FXML
     void removeClick(ActionEvent event) {
         if (quantity >= 1) {
             quantity--;
             quantityLabel.setText(String.valueOf(quantity));
-            Product.productList.get(prod_ind).setMarketQuantity(quantity);
+            Order.orderList.get(order_ind).setOrderQuantity(quantity);
+
         }
     }
 
+    @FXML
+    void buyClick(ActionEvent event) {
+
+    }
+
     private Product product;
+    private Integer order_ind;
 
     private Integer quantity = 0;
-    private Integer prod_ind;
 
-    public void setProduct(int ind) {
-        this.product = Product.productList.get(ind);
-        this.prod_ind = ind;
+    public void setProduct(Integer ind) {
+        this.product = Order.orderList.get(ind);
+        this.quantity = this.product.getOrderQuantity();
+        this.order_ind = ind;
     }
+
 
     @FXML
     void initialize() {
@@ -72,6 +83,8 @@ public class ProductCardController {
         price.setText("$" + product.getPrice());
 
         title.setText(product.getTitle());
+
+        quantityLabel.setText(String.valueOf(product.getOrderQuantity()));
 
         Image im = new Image("C:\\Users\\magzu\\IdeaProjects\\final_project\\src\\main\\resources\\project\\files\\final_project\\img\\" + product.getTitle() + ".jpg");
         img.setImage(im);
