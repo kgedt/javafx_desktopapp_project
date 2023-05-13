@@ -1,7 +1,9 @@
 package project.files.database;
 
+import project.files.customer.Customer;
 import project.files.customer.Order;
 import project.files.customer.Product;
+import project.files.customer.Purchase;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
@@ -84,7 +86,6 @@ public class DbHandler {
                 " WHERE " + PRODUCT_ID + " = " + id.toString() + ";";
 
 
-
         try (PreparedStatement prSt = getDbConnection().prepareStatement(selectQuery)) {
             ResultSet rs = prSt.executeQuery();
             while (rs.next()) {
@@ -107,23 +108,23 @@ public class DbHandler {
         return resultList;
     }
 
-    public static List<Product> getOrdersById(Integer id) {
+    public static List<Product> getOrdersById(int id) {
         List<Product> resultList = new ArrayList<>();
         String selectQuery = " SELECT products.product_id, products.title, products.price, orders.quantity, orders.order_id " +
-        "FROM orders " +
-        " INNER JOIN products ON orders.product_id = products.product_id " +
-        " INNER JOIN customers ON orders.customer_id = customers.customer_id " +
-        " WHERE orders.customer_id = " + id + ";";
+                "FROM " + ORDER_TABLENAME +
+                " INNER JOIN " + PRODUCT_TABLENAME + " ON orders.product_id = products.product_id " +
+                " INNER JOIN " + CUSTOMER_TABLENAME + " ON orders.customer_id = customers.customer_id " +
+                " WHERE orders.customer_id = " + id + ";";
 
         try (PreparedStatement prSt = getDbConnection().prepareStatement(selectQuery)) {
             ResultSet rs = prSt.executeQuery();
 
             while (rs.next()) {
                 resultList.add(new Product(rs.getInt(PRODUCT_ID),
-                                            rs.getString(PRODUCT_TITLE),
-                                            rs.getDouble(PRODUCT_PRICE),
-                                            rs.getInt(ORDER_QUANTITY),
-                                            rs.getInt(ORDER_ID)));
+                        rs.getString(PRODUCT_TITLE),
+                        rs.getDouble(PRODUCT_PRICE),
+                        rs.getInt(ORDER_QUANTITY),
+                        rs.getInt(ORDER_ID)));
             }
 
         } catch (SQLException e) {
@@ -135,9 +136,9 @@ public class DbHandler {
 
     public static void addOrders(List<Order> orders) {
         String insertQuery = "INSERT INTO orders (customer_id, product_id, quantity) " +
-                             " VALUES (?, ?, ?);";
+                " VALUES (?, ?, ?);";
 
-        for (Order cur: orders) {
+        for (Order cur : orders) {
             try (PreparedStatement prSt = getDbConnection().prepareStatement(insertQuery)) {
                 int cnt = 1;
                 prSt.setInt(cnt++, cur.getCustomer_id());
@@ -152,7 +153,47 @@ public class DbHandler {
         }
     }
 
-    public static void orderUpdate(Integer order_id, Integer quantity) {
+    public static void addBalance(double money) throws Exception {
+        if (money < 0.0) throw new Exception("NEGATIVE MONEY AMOUNT");
+
+//        String updateQuery = "UPDATE " + CUSTOMER_TABLENAME +
+//                " SET balance = " +
+//                "(" + money + " + (SELECT balance FROM " + CUSTOMER_TABLENAME + " WHERE " + CUSTOMER_ID + "=" + Customer.id + ")) " +
+//                " WHERE customer_id = " + Customer.id + ";";
+
+        String updateQuery = "UPDATE customers\n" +
+                "SET balance = ((SELECT balance FROM customers WHERE customer_id=" + Customer.id + ")+" + money + ")\n" +
+                "WHERE customer_id = " + Customer.id + ";";
+
+        try (PreparedStatement prSt = getDbConnection().prepareStatement(updateQuery)) {
+            prSt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void subtractBalance(double money) throws Exception {
+        if (money < 0.0) throw new Exception("NEGATIVE MONEY AMOUNT");
+
+//        String updateQuery = "UPDATE " + CUSTOMER_TABLENAME +
+//                " SET balance = " +
+//                "((SELECT balance FROM " + CUSTOMER_TABLENAME + " WHERE " + CUSTOMER_ID + "=" + Customer.id + ") - " + money + ") " +
+//                " WHERE customer_id = " + Customer.id + ";";
+
+        String updateQuery = "UPDATE customers\n" +
+                "SET balance = ((SELECT balance FROM customers WHERE customer_id=" + Customer.id + ")-" + money + ")\n" +
+                "WHERE customer_id = " + Customer.id + ";";
+
+        try (PreparedStatement prSt = getDbConnection().prepareStatement(updateQuery)) {
+            prSt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void orderUpdate(int order_id, int quantity) {
         String query = "";
         if (quantity != 0) {
             query = "UPDATE orders " +
@@ -162,7 +203,7 @@ public class DbHandler {
             query = "DELETE FROM orders WHERE order_id = " + order_id + ";";
         }
 
-        try(PreparedStatement prSt = getDbConnection().prepareStatement(query)) {
+        try (PreparedStatement prSt = getDbConnection().prepareStatement(query)) {
             prSt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -170,13 +211,39 @@ public class DbHandler {
         }
     }
 
-    /*
-    SELECT products.product_id, products.title, products.price
-FROM orders
-INNER JOIN products ON orders.product_id = products.product_id
-INNER JOIN customers ON orders.customer_id = customers.customer_id
-WHERE orders.customer_id = 1;
-    */
+    public static void resetOrders(int customerId) {
+        Order.orderList = new ArrayList<>();
+
+        String dropQuery = "DELETE FROM orders " +
+                " WHERE " + CUSTOMER_ID + " = " + customerId + ";";
+
+        try (PreparedStatement prSt = getDbConnection().prepareStatement(dropQuery)) {
+            prSt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void addPurchases() {
+        String insertQuery = "INSERT INTO " + PURCHASE_TABLENAME + " (" +
+                CUSTOMER_ID + ", " + PRODUCT_ID + ", " + PURCHASE_DATE + ", " + PURCHASE_QUANTITY + ") " +
+                " VALUES (?, ?, ?, ?);";
+
+        try (PreparedStatement prSt = getDbConnection().prepareStatement(insertQuery)) {
+            for (Purchase curPurchase : Purchase.purchaseList) {
+                int ind = 1;
+                prSt.setInt(ind++, Customer.id);
+                prSt.setInt(ind++, curPurchase.getProductId());
+                prSt.setDate(ind++, curPurchase.getPurchaseDate());
+                prSt.setInt(ind++, curPurchase.getPurchaseQuantity());
+                prSt.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static int maxId(String tableName, String idName) throws SQLException {
         int res = -1;
@@ -209,6 +276,41 @@ WHERE orders.customer_id = 1;
         }
 
         return result;
+    }
+
+    public static double getProductCostById(int product_id) {
+        double res = -1.0;
+        String selectQuery = "SELECT price FROM products WHERE product_id = " + product_id + ";";
+
+        try (PreparedStatement prSt = getDbConnection().prepareStatement(selectQuery)) {
+            ResultSet rs = prSt.executeQuery();
+
+            while (rs.next()) {
+                res = rs.getDouble("price");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return res;
+    }
+
+    public static int lastReceiptId() {
+        int res = -1;
+        String selectQuery = "SELECT MAX(purchase_id) FROM purchase_history;";
+        try (PreparedStatement prSt = getDbConnection().prepareStatement(selectQuery)) {
+            ResultSet rs = prSt.executeQuery();
+
+            while (rs.next()) {
+                res = rs.getInt("max");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return res;
     }
 
 }

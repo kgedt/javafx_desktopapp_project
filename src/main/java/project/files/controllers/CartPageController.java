@@ -2,14 +2,18 @@ package project.files.controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.time.LocalDate;
+import java.sql.Date;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -17,10 +21,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import project.files.Helper;
 import project.files.customer.Customer;
 import project.files.customer.Order;
 import project.files.customer.Product;
+import project.files.customer.Purchase;
 import project.files.database.DbHandler;
 import project.files.final_project.StartApplication;
 
@@ -59,6 +65,54 @@ public class CartPageController {
     private Button backButton;
 
     @FXML
+    private Button buyButton;
+
+    @FXML
+    private Label errorText;
+
+    @FXML
+    void buyClick(ActionEvent event) throws Exception {
+        if (balanceIsEnough()) {
+            Customer.balance -= Order.totalCost;
+            Customer.balance = Math.round(Customer.balance*100.0)/100.0;
+            DbHandler.subtractBalance(Order.totalCost);
+
+            for (int i = 0; i < Order.orderList.size(); i++) {
+                Product curProd = Order.orderList.get(i);
+
+                Purchase curPurchase = new Purchase(DbHandler.lastReceiptId(),
+                        Customer.id,
+                        curProd.getProduct_id(),
+                        Date.valueOf(LocalDate.now().toString()),
+                        curProd.getOrderQuantity());
+
+                Purchase.purchaseList.add(curPurchase);
+
+                Stage stage = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource(receiptPage));
+                Scene scene = new Scene(fxmlLoader.load(), 300, 600);
+                stage.setTitle("RECEIPT");
+                stage.setResizable(false);
+                stage.setScene(scene);
+
+                ReceiptPageController receiptPageController = fxmlLoader.getController();
+                receiptPageController.setData(curPurchase);
+
+                stage.show();
+            }
+
+            DbHandler.resetOrders(Customer.id);
+
+            DbHandler.addPurchases();
+
+            Helper.changeScene(buyButton, cartPage);
+        } else {
+            errorText.setText("Not enough money");
+        }
+
+    }
+
+    @FXML
     void recalculateClick() {
         totalCostLabel.setText("TOTAL: $" + Helper.calculateTotalCost());
     }
@@ -73,6 +127,8 @@ public class CartPageController {
             DbHandler.orderUpdate(curProd.getOrderId(), curProd.getOrderQuantity());
         }
     }
+
+
 
 
     @FXML
@@ -102,5 +158,10 @@ public class CartPageController {
         }
         totalCostLabel.setText("TOTAL: $" + Helper.calculateTotalCost());
 
+    }
+
+    boolean balanceIsEnough() {
+        Order.totalCost = Helper.calculateTotalCost();
+        return Customer.balance >= Order.totalCost;
     }
 }

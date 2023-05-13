@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -69,13 +70,25 @@
                   </VBox>
                </right>
                <left>
-                  <VBox prefHeight="506.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <VBox alignment="CENTER" prefHeight="506.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                      <BorderPane.margin>
                         <Insets />
                      </BorderPane.margin>
+                     <children>
+                        <TextField fx:id="moneyAmount" prefHeight="42.0" prefWidth="160.0" promptText="enter money to add">
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Button fx:id="addMoneyButton" mnemonicParsing="false" onAction="#addMoneyClick" text="ADD">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Button>
+                     </children>
                   </VBox>
                </left>
                <bottom>

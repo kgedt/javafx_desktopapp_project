@@ -7,4 +7,5 @@ public class Pages {
     public static final String productCard = "productCard.fxml";
     public static final String cartPage = "cartPage.fxml";
     public static final String orderCard = "orderCard.fxml";
+    public static final String receiptPage = "receiptPage.fxml";
 }

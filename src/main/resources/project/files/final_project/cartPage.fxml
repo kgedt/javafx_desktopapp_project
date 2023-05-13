@@ -107,11 +107,23 @@
                         <Insets top="10.0" />
                      </BorderPane.margin>
                      <children>
-                        <Button mnemonicParsing="false" text="BUY">
-                           <font>
-                              <Font name="System Bold" size="24.0" />
-                           </font>
-                        </Button>
+                        <VBox alignment="CENTER" prefHeight="100.0" prefWidth="1256.0">
+                           <children>
+                              <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buyClick" prefHeight="31.0" prefWidth="72.0" text="BUY">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Button>
+                              <Label fx:id="errorText" alignment="CENTER" prefHeight="27.0" prefWidth="1175.0" textFill="RED">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
                </bottom>

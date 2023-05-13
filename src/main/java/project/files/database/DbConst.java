@@ -24,4 +24,10 @@ public class DbConst {
     public static final String ORDER_PRODUCT_ID = "product_id";
     public static final String ORDER_QUANTITY = "quantity";
 
+
+    public static final String PURCHASE_TABLENAME = "purchase_history";
+    public static final String PURCHASE_ID = "purchase_id";
+    public static final String PURCHASE_DATE = "purchase_date";
+    public static final String PURCHASE_QUANTITY = "purchase_quantity";
+
 }

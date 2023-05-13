@@ -56,6 +56,12 @@ public class UserPageController {
     private Circle circleImage;
 
     @FXML
+    private TextField moneyAmount;
+
+    @FXML
+    private Button addMoneyButton;
+
+    @FXML
     private ScrollPane scrollPane;
 
     @FXML
@@ -85,6 +91,18 @@ public class UserPageController {
         }
         DbHandler.addOrders(orders);
         Helper.changeScene(addCartButton, cartPage);
+    }
+
+    @FXML
+    void addMoneyClick(ActionEvent event) {
+        try {
+            DbHandler.addBalance(Double.parseDouble(moneyAmount.getText()));
+            Customer.balance += Double.parseDouble(moneyAmount.getText());
+            moneyAmount.setText("");
+            Helper.changeScene(addMoneyButton, userPage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
