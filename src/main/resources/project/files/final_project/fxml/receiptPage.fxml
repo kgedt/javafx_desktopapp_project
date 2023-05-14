@@ -1,84 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.files.controllers.ReceiptPageController">
    <children>
+      <ImageView fitHeight="600.0" fitWidth="300.0">
+         <image>
+            <Image url="@../img/receipt-background.jpg" />
+         </image>
+      </ImageView>
       <AnchorPane prefHeight="600.0" prefWidth="300.0">
          <children>
             <VBox alignment="CENTER" prefHeight="600.0" prefWidth="300.0">
                <children>
-                  <Label fx:id="receiptIdLabel" alignment="CENTER" prefHeight="35.0" prefWidth="294.0" text="RECEIPT #id">
+                  <Label fx:id="receiptIdLabel" alignment="CENTER" prefHeight="35.0" prefWidth="294.0" text="RECEIPT #id" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="Stencil" size="26.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="294.0">
+                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="294.0" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="Stencil" size="26.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="294.0" text="-------------------------">
+                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="294.0" text="-------------------------" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="Stencil" size="26.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="294.0">
+                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="294.0" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="Stencil" size="26.0" />
                      </font>
                   </Label>
-                  <Label fx:id="productIdLabel" alignment="TOP_CENTER" prefHeight="109.0" prefWidth="294.0" text="#product&#10;.&#10;.&#10;.&#10;" textAlignment="CENTER">
+                  <Label fx:id="productIdLabel" alignment="TOP_CENTER" prefHeight="109.0" prefWidth="294.0" text="#product&#10;.&#10;.&#10;.&#10;" textAlignment="CENTER" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="Stencil" size="26.0" />
                      </font>
                   </Label>
-                  <Label fx:id="customerIdLabel" alignment="CENTER" prefHeight="35.0" prefWidth="294.0" text="#customer">
+                  <Label fx:id="customerIdLabel" alignment="CENTER" prefHeight="35.0" prefWidth="294.0" text="#customer" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="Stencil" size="26.0" />
                      </font>
                   </Label>
-                  <Label fx:id="priceLabel" alignment="CENTER" prefHeight="35.0" prefWidth="294.0" text="#price">
+                  <Label fx:id="priceLabel" alignment="CENTER" prefHeight="35.0" prefWidth="294.0" text="#price" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="Stencil" size="26.0" />
                      </font>
                   </Label>
-                  <Label fx:id="monthLabel" alignment="CENTER" prefHeight="35.0" prefWidth="294.0" text="#MONTH">
+                  <Label fx:id="monthLabel" alignment="CENTER" prefHeight="35.0" prefWidth="294.0" text="#MONTH" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="Stencil" size="26.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dayLabel" alignment="CENTER" prefHeight="35.0" prefWidth="294.0">
+                  <Label fx:id="dayLabel" alignment="CENTER" prefHeight="35.0" prefWidth="294.0" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="Stencil" size="26.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="294.0">
+                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="294.0" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="Stencil" size="26.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="294.0">
+                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="294.0" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="Stencil" size="26.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="294.0" text="THANK YOU!">
+                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="294.0" text="THANK YOU!" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="Stencil" size="26.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="294.0" text="-------------------------">
+                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="294.0" text="-------------------------" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="Stencil" size="26.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="294.0">
+                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="294.0" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="Stencil" size="26.0" />
                      </font>
                   </Label>
                </children>

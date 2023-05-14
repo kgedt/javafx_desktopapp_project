@@ -107,13 +107,14 @@ public class CartPageController {
             ReceiptPageController receiptPageController = fxmlLoader.getController();
             receiptPageController.setData(Purchase.purchaseList.get(Purchase.purchaseList.size() - 1), prodIdList);
 
-            stage.show();
 
             DbHandler.resetOrders(Customer.id);
 
             DbHandler.addPurchases();
 
             Helper.changeScene(buyButton, cartPage);
+
+            stage.show();
         } else {
             errorText.setText("Not enough money");
         }
@@ -142,7 +143,7 @@ public class CartPageController {
         setCustomerData();
         setOrders();
         setBuyImage();
-
+        setBackImage();
     }
 
     boolean balanceIsEnough() {
@@ -194,5 +195,13 @@ public class CartPageController {
         imv.setFitHeight(60);
         buyButton.setText("");
         buyButton.graphicProperty().setValue(imv);
+    }
+
+    private void setBackImage() {
+        ImageView imv = new ImageView("C:\\Users\\magzu\\IdeaProjects\\final_project\\src\\main\\resources\\project\\files\\final_project\\img\\back.png");
+        imv.setFitWidth(60);
+        imv.setFitHeight(60);
+        backButton.setText("");
+        backButton.graphicProperty().setValue(imv);
     }
 }

@@ -160,7 +160,7 @@ public class UserPageController {
         setAddToCartButtonImage();
         setCustomerData();
         setProducts();
-
+        setLogoutImage();
     }
 
     private void setCartButtonImage() {
@@ -228,5 +228,13 @@ public class UserPageController {
 
     public static int sortBy = -1;
 
+
+    private void setLogoutImage() {
+        ImageView imv = new ImageView("C:\\Users\\magzu\\IdeaProjects\\final_project\\src\\main\\resources\\project\\files\\final_project\\img\\logout.png");
+        imv.setFitWidth(60);
+        imv.setFitHeight(60);
+        logoutButton.setText("");
+        logoutButton.graphicProperty().setValue(imv);
+    }
 
 }

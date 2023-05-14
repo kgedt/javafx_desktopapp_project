@@ -3,6 +3,7 @@ package project.files.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import project.files.Helper;
 import project.files.database.DbConst;
 import project.files.database.DbHandler;
@@ -65,7 +66,7 @@ public class RegisterPageController {
 
     @FXML
     void initialize() {
-
+        setBackImage();
     }
 
     boolean isValidFields(String login, String password, String firstName, String lastName) {
@@ -87,6 +88,12 @@ public class RegisterPageController {
         return false;
     }
 
-
+    private void setBackImage() {
+        ImageView imv = new ImageView("C:\\Users\\magzu\\IdeaProjects\\final_project\\src\\main\\resources\\project\\files\\final_project\\img\\back.png");
+        imv.setFitWidth(60);
+        imv.setFitHeight(60);
+        backButton.setText("");
+        backButton.graphicProperty().setValue(imv);
+    }
 
 }
