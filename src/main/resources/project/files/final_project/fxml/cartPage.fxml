@@ -22,7 +22,7 @@
                <center>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <ScrollPane fx:id="scroll" prefHeight="689.0" prefWidth="925.0">
+                        <ScrollPane fx:id="scroll" prefHeight="486.0" prefWidth="958.0">
                            <content>
                               <GridPane fx:id="grid" prefHeight="496.0" prefWidth="925.0">
                                 <columnConstraints>

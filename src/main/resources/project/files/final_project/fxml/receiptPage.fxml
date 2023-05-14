@@ -31,7 +31,7 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <Label fx:id="productIdLabel" alignment="CENTER" prefHeight="35.0" prefWidth="294.0" text="#product">
+                  <Label fx:id="productIdLabel" alignment="TOP_CENTER" prefHeight="109.0" prefWidth="294.0" text="#product&#10;.&#10;.&#10;.&#10;" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -42,16 +42,6 @@
                      </font>
                   </Label>
                   <Label fx:id="priceLabel" alignment="CENTER" prefHeight="35.0" prefWidth="294.0" text="#price">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="294.0">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="yearLabel" alignment="CENTER" prefHeight="35.0" prefWidth="294.0">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>

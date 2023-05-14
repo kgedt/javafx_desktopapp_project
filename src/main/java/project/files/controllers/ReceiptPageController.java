@@ -1,9 +1,11 @@
 package project.files.controllers;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import project.files.customer.Order;
 import project.files.customer.Purchase;
 import project.files.database.DbHandler;
 
@@ -41,11 +43,17 @@ public class ReceiptPageController {
 
     }
 
-    void setData(Purchase purchase) {
+    void setData(Purchase purchase, List<Integer> prodIdList) {
+        String prodListString = prodIdList.toString();
         receiptIdLabel.setText("RECEIPT #" + purchase.getPurchaseId());
-        productIdLabel.setText("Prod id: #" + purchase.getProductId());
+        if (prodIdList.size() >= 4) {
+            productIdLabel.setText("ProdList id: #" + prodListString.substring(0, prodListString.length()/2) + "\n"
+                    + prodListString.substring(prodListString.length()/2));
+        } else {
+            productIdLabel.setText("ProdList id: #" + prodListString);
+        }
         customerIdLabel.setText("Customer id: #" + purchase.getCustomerId());
-        priceLabel.setText("Price: $" + purchase.getPurchaseQuantity() * DbHandler.getProductCostById(purchase.getProductId()));
+        priceLabel.setText("Price: $" + Order.totalCost);
 
         String dateStr = purchase.getPurchaseDate().toString();
         monthLabel.setText(dateStr);

@@ -8,4 +8,5 @@ public class Pages {
     public static final String cartPage = "fxml/cartPage.fxml";
     public static final String orderCard = "fxml/orderCard.fxml";
     public static final String receiptPage = "fxml/receiptPage.fxml";
+    public static final String emptyCard = "fxml/emptyCard.fxml";
 }

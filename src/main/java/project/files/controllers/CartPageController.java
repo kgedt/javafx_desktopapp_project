@@ -73,14 +73,15 @@ public class CartPageController {
 
     @FXML
     void buyClick(ActionEvent event) throws Exception {
-        if (Order.orderList.size() <= 0) {
+        if (Order.orderList.isEmpty()) {
             errorText.setText("Cart is empty");
             return;
         }
         if (balanceIsEnough()) {
             Customer.balance -= Order.totalCost;
-            Customer.balance = Math.round(Customer.balance*100.0)/100.0;
+            Customer.balance = Math.round(Customer.balance * 100.0) / 100.0;
             DbHandler.subtractBalance(Order.totalCost);
+            List<Integer> prodIdList = new ArrayList<>();
 
             for (int i = 0; i < Order.orderList.size(); i++) {
                 Product curProd = Order.orderList.get(i);
@@ -92,19 +93,21 @@ public class CartPageController {
                         curProd.getOrderQuantity());
 
                 Purchase.purchaseList.add(curPurchase);
+                prodIdList.add(curProd.getProduct_id());
 
-                Stage stage = new Stage();
-                FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource(receiptPage));
-                Scene scene = new Scene(fxmlLoader.load(), 300, 600);
-                stage.setTitle("RECEIPT");
-                stage.setResizable(false);
-                stage.setScene(scene);
-
-                ReceiptPageController receiptPageController = fxmlLoader.getController();
-                receiptPageController.setData(curPurchase);
-
-                stage.show();
             }
+
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource(receiptPage));
+            Scene scene = new Scene(fxmlLoader.load(), 300, 600);
+            stage.setTitle("RECEIPT");
+            stage.setResizable(false);
+            stage.setScene(scene);
+
+            ReceiptPageController receiptPageController = fxmlLoader.getController();
+            receiptPageController.setData(Purchase.purchaseList.get(Purchase.purchaseList.size() - 1), prodIdList);
+
+            stage.show();
 
             DbHandler.resetOrders(Customer.id);
 
@@ -159,6 +162,15 @@ public class CartPageController {
     private void setOrders() throws IOException {
         Order.orderList = DbHandler.getOrdersById(Customer.id);
         Order.totalCost = 0.0;
+        if (Order.orderList.isEmpty()) {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(StartApplication.class.getResource(emptyCard));
+
+            AnchorPane anchorPane = fxmlLoader.load();
+
+
+            grid.add(anchorPane, 1, 0);
+        }
 
         for (int i = 0; i < Order.orderList.size(); i++) {
             FXMLLoader fxmlLoader = new FXMLLoader();

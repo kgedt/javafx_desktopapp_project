@@ -37,6 +37,9 @@ public class ProductCardController {
 
     @FXML
     private Label quantityLabel;
+    private Product product;
+    private Integer quantity = 0;
+    private Integer prod_ind;
 
     @FXML
     void addClick(ActionEvent event) {
@@ -44,6 +47,7 @@ public class ProductCardController {
         quantityLabel.setText(String.valueOf(quantity));
         Product.productList.get(prod_ind).setMarketQuantity(quantity);
     }
+
     @FXML
     void removeClick(ActionEvent event) {
         if (quantity >= 1) {
@@ -52,11 +56,6 @@ public class ProductCardController {
             Product.productList.get(prod_ind).setMarketQuantity(quantity);
         }
     }
-
-    private Product product;
-
-    private Integer quantity = 0;
-    private Integer prod_ind;
 
     public void setProduct(int ind) {
         this.product = Product.productList.get(ind);

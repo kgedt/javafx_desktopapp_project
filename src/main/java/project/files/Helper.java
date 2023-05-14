@@ -35,7 +35,6 @@ public class Helper {
     public static void changeScene(Button clickedButton, String fxmlFilename) throws IOException {
         Stage stage = StartApplication.app_stage;
 
-        clickedButton.getScene().getWindow().hide();
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(StartApplication.class.getResource(fxmlFilename));
@@ -48,6 +47,7 @@ public class Helper {
         stage.setResizable(false);
 
         stage.show();
+//        clickedButton.getScene().getWindow().hide();
     }
 
     public static void setCustomerInfo(String enteredLogin) {
