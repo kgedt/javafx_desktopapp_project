@@ -16,6 +16,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -129,17 +130,29 @@ public class CartPageController {
     }
 
 
-
-
     @FXML
     void initialize() throws IOException {
+        setCustomerData();
+        setOrders();
+        setBuyImage();
+
+    }
+
+    boolean balanceIsEnough() {
+        Order.totalCost = Helper.calculateTotalCost();
+        return Customer.balance >= Order.totalCost;
+    }
+
+    private void setCustomerData() {
         loginField.setText(Customer.login);
         balanceLabel.setText(Customer.balance.toString() + "$");
 
         Image im = new Image("C:\\Users\\magzu\\IdeaProjects\\final_project\\src\\main\\resources\\project\\files\\final_project\\img\\3048122.png");
         circleImage.setFill(new ImagePattern(im));
         circleImage.setEffect(new DropShadow(+25d, 0d, +2d, Color.DARKSEAGREEN));
+    }
 
+    private void setOrders() throws IOException {
         Order.orderList = DbHandler.getOrdersById(Customer.id);
         Order.totalCost = 0.0;
 
@@ -157,11 +170,13 @@ public class CartPageController {
 
         }
         totalCostLabel.setText("TOTAL: $" + Helper.calculateTotalCost());
-
     }
 
-    boolean balanceIsEnough() {
-        Order.totalCost = Helper.calculateTotalCost();
-        return Customer.balance >= Order.totalCost;
+    private void setBuyImage() {
+        ImageView imv = new ImageView("C:\\Users\\magzu\\IdeaProjects\\final_project\\src\\main\\resources\\project\\files\\final_project\\img\\purchase.png");
+        imv.setFitWidth(60);
+        imv.setFitHeight(60);
+        buyButton.setText("");
+        buyButton.graphicProperty().setValue(imv);
     }
 }

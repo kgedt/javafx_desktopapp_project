@@ -6,12 +6,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import project.files.Helper;
+import project.files.comparators.*;
 import project.files.customer.Customer;
 import project.files.customer.Order;
 import project.files.customer.Product;
@@ -22,6 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -62,7 +65,22 @@ public class UserPageController {
     private Button addMoneyButton;
 
     @FXML
+    private Button sortAZ;
+
+    @FXML
+    private Button sortZA;
+
+    @FXML
+    private Button sortLowHigh;
+
+    @FXML
+    private Button sortHighLow;
+
+    @FXML
     private ScrollPane scrollPane;
+
+    @FXML
+    private Label addErrorText;
 
     @FXML
     private GridPane gridPane;
@@ -72,6 +90,30 @@ public class UserPageController {
 
     @FXML
     private Button addCartButton;
+
+    @FXML
+    void sortAZclick(ActionEvent event) throws IOException {
+        this.sortBy = 1;
+        Helper.changeScene(sortAZ, userPage);
+    }
+
+    @FXML
+    void sortHighLowClick(ActionEvent event) throws IOException {
+        this.sortBy = 4;
+        Helper.changeScene(sortHighLow, userPage);
+    }
+
+    @FXML
+    void sortLowHighClick(ActionEvent event) throws IOException {
+        this.sortBy = 3;
+        Helper.changeScene(sortLowHigh, userPage);
+    }
+
+    @FXML
+    void sortZAclick(ActionEvent event) throws IOException {
+        this.sortBy = 2;
+        Helper.changeScene(sortZA, userPage);
+    }
 
 
     @FXML
@@ -101,7 +143,8 @@ public class UserPageController {
             moneyAmount.setText("");
             Helper.changeScene(addMoneyButton, userPage);
         } catch (Exception e) {
-            e.printStackTrace();
+            addErrorText.setText("Enter only numbers");
+//            e.printStackTrace();
         }
     }
 
@@ -112,15 +155,62 @@ public class UserPageController {
 
 
     @FXML
-    void initialize() throws IOException, SQLException {
+    void initialize() throws SQLException, IOException {
+        setCartButtonImage();
+        setAddToCartButtonImage();
+        setCustomerData();
+        setProducts();
+
+    }
+
+    private void setCartButtonImage() {
+        ImageView imv = new ImageView("C:\\Users\\magzu\\IdeaProjects\\final_project\\src\\main\\resources\\project\\files\\final_project\\img\\basket.png");
+        imv.setFitWidth(60);
+        imv.setFitHeight(60);
+        cartButton.graphicProperty().setValue(imv);
+        cartButton.setText("");
+    }
+
+    private void setAddToCartButtonImage() {
+        ImageView imv = new ImageView("C:\\Users\\magzu\\IdeaProjects\\final_project\\src\\main\\resources\\project\\files\\final_project\\img\\addToCart.png");
+        imv.setFitWidth(60);
+        imv.setFitHeight(60);
+        addCartButton.setText("");
+        addCartButton.graphicProperty().setValue(imv);
+    }
+
+    private void setCustomerData() {
         loginField.setText(Customer.login);
         balanceLabel.setText(Customer.balance.toString() + "$");
-
         Image im = new Image("C:\\Users\\magzu\\IdeaProjects\\final_project\\src\\main\\resources\\project\\files\\final_project\\img\\3048122.png");
         circleImage.setFill(new ImagePattern(im));
         circleImage.setEffect(new DropShadow(+25d, 0d, +2d, Color.DARKSEAGREEN));
 
+    }
+
+    private void setProducts() throws SQLException, IOException {
         Product.productList = DbHandler.getAllProductList();
+        Comparator<Product> comp = null;
+
+        switch (sortBy) {
+            case 1:
+                comp = new AZComparator().thenComparing(new AZComparator());
+                break;
+            case 2:
+                comp = new ZAComparator().thenComparing(new ZAComparator());
+                break;
+            case 3:
+                comp = new LHComparator().thenComparing(new LHComparator());
+                break;
+            case 4:
+                comp = new HLComparator().thenComparing(new HLComparator());
+                break;
+            default:
+                this.sortBy = -1;
+        }
+        if (sortBy >= 1 && sortBy <= 4) {
+            Product.productList.sort(comp);
+        }
 
         for (int i = 0; i < Product.productList.size(); i++) {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -136,6 +226,7 @@ public class UserPageController {
         }
     }
 
+    public static int sortBy = -1;
 
 
 }

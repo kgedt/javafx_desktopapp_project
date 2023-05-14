@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="250.0" prefWidth="925.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.files.controllers.ProductCardController">
+<AnchorPane prefHeight="250.0" prefWidth="925.0" style="-fx-background-color: #35b9de;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.files.controllers.ProductCardController">
    <children>
       <HBox alignment="CENTER" prefHeight="250.0" prefWidth="925.0">
          <children>
