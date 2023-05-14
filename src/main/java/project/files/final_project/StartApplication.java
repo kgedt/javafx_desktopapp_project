@@ -6,13 +6,15 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+import static project.files.pages.Pages.*;
+
 public class StartApplication extends Application {
     public static Stage app_stage;
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("authorizePage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource(authorizePage));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        stage.setTitle("Authorize");
+        stage.setTitle("MILITARY MARKET");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

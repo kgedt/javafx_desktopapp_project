@@ -73,6 +73,10 @@ public class CartPageController {
 
     @FXML
     void buyClick(ActionEvent event) throws Exception {
+        if (Order.orderList.size() <= 0) {
+            errorText.setText("Cart is empty");
+            return;
+        }
         if (balanceIsEnough()) {
             Customer.balance -= Order.totalCost;
             Customer.balance = Math.round(Customer.balance*100.0)/100.0;
