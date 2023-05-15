@@ -8,39 +8,28 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import project.files.customer.Order;
 import project.files.customer.Product;
+import project.files.final_project.StartApplication;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class OrderCardController {
-
     @FXML
     private ResourceBundle resources;
-
     @FXML
     private URL location;
-
     @FXML
     private ImageView img;
-
     @FXML
     private Label title;
-
     @FXML
     private Label price;
-
     @FXML
     private Button addButton;
-
     @FXML
     private Button removeButton;
-
-    @FXML
-    private Button buyButton;
-
     @FXML
     private Label quantityLabel;
-
     @FXML
     void addClick(ActionEvent event) {
         quantity++;
@@ -57,29 +46,18 @@ public class OrderCardController {
             Order.totalCost -= product.getPrice();
         }
     }
-
-    @FXML
-    void buyClick(ActionEvent event) {
-
-    }
-
     private Product product;
     private Integer order_ind;
-
     private Integer quantity = 0;
-
     public void setProduct(Integer ind) {
         this.product = Order.orderList.get(ind);
         this.quantity = this.product.getOrderQuantity();
         this.order_ind = ind;
     }
-
-
     @FXML
     void initialize() {
 
     }
-
     public void setData() {
         price.setText("$" + product.getPrice());
 
@@ -87,7 +65,7 @@ public class OrderCardController {
 
         quantityLabel.setText(String.valueOf(product.getOrderQuantity()));
 
-        Image im = new Image("C:\\Users\\magzu\\IdeaProjects\\final_project\\src\\main\\resources\\project\\files\\final_project\\img\\" + product.getTitle() + ".jpg");
+        Image im = new Image(String.valueOf(StartApplication.class.getResource("img/" + product.getTitle() + ".jpg")));
         img.setImage(im);
     }
 }

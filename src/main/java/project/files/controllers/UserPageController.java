@@ -164,7 +164,7 @@ public class UserPageController {
     }
 
     private void setCartButtonImage() {
-        ImageView imv = new ImageView("C:\\Users\\magzu\\IdeaProjects\\final_project\\src\\main\\resources\\project\\files\\final_project\\img\\basket.png");
+        ImageView imv = new ImageView(String.valueOf(StartApplication.class.getResource("img/basket.png")));
         imv.setFitWidth(60);
         imv.setFitHeight(60);
         cartButton.graphicProperty().setValue(imv);
@@ -172,7 +172,7 @@ public class UserPageController {
     }
 
     private void setAddToCartButtonImage() {
-        ImageView imv = new ImageView("C:\\Users\\magzu\\IdeaProjects\\final_project\\src\\main\\resources\\project\\files\\final_project\\img\\addToCart.png");
+        ImageView imv = new ImageView(String.valueOf(StartApplication.class.getResource("img/addToCart.png")));
         imv.setFitWidth(60);
         imv.setFitHeight(60);
         addCartButton.setText("");
@@ -182,7 +182,7 @@ public class UserPageController {
     private void setCustomerData() {
         loginField.setText(Customer.login);
         balanceLabel.setText(Customer.balance.toString() + "$");
-        Image im = new Image("C:\\Users\\magzu\\IdeaProjects\\final_project\\src\\main\\resources\\project\\files\\final_project\\img\\3048122.png");
+        Image im = new Image(String.valueOf(StartApplication.class.getResource("img/3048122.png")));
         circleImage.setFill(new ImagePattern(im));
         circleImage.setEffect(new DropShadow(+25d, 0d, +2d, Color.DARKSEAGREEN));
 
@@ -226,15 +226,14 @@ public class UserPageController {
         }
     }
 
-    public static int sortBy = -1;
-
-
     private void setLogoutImage() {
-        ImageView imv = new ImageView("C:\\Users\\magzu\\IdeaProjects\\final_project\\src\\main\\resources\\project\\files\\final_project\\img\\logout.png");
+        ImageView imv = new ImageView(String.valueOf(StartApplication.class.getResource("img/logout.png")));
         imv.setFitWidth(60);
         imv.setFitHeight(60);
         logoutButton.setText("");
         logoutButton.graphicProperty().setValue(imv);
     }
+
+    public static int sortBy = -1;
 
 }

@@ -34,43 +34,30 @@ import project.files.final_project.StartApplication;
 import static project.files.pages.Pages.*;
 
 public class CartPageController {
-
     @FXML
     private ResourceBundle resources;
-
     @FXML
     private URL location;
-
     @FXML
     private ScrollPane scroll;
-
     @FXML
     private GridPane grid;
-
     @FXML
     private Label loginField;
-
     @FXML
     private Label balanceLabel;
-
     @FXML
     private Circle circleImage;
-
     @FXML
     private Label totalCostLabel;
-
     @FXML
     private Button recalculateButton;
-
     @FXML
     private Button backButton;
-
     @FXML
     private Button buyButton;
-
     @FXML
     private Label errorText;
-
     @FXML
     void buyClick(ActionEvent event) throws Exception {
         if (Order.orderList.isEmpty()) {
@@ -120,12 +107,10 @@ public class CartPageController {
         }
 
     }
-
     @FXML
     void recalculateClick() {
         totalCostLabel.setText("TOTAL: $" + Helper.calculateTotalCost());
     }
-
     @FXML
     void backClick(ActionEvent event) throws IOException {
         Helper.changeScene(backButton, userPage);
@@ -136,8 +121,6 @@ public class CartPageController {
             DbHandler.orderUpdate(curProd.getOrderId(), curProd.getOrderQuantity());
         }
     }
-
-
     @FXML
     void initialize() throws IOException {
         setCustomerData();
@@ -145,12 +128,10 @@ public class CartPageController {
         setBuyImage();
         setBackImage();
     }
-
     boolean balanceIsEnough() {
         Order.totalCost = Helper.calculateTotalCost();
         return Customer.balance >= Order.totalCost;
     }
-
     private void setCustomerData() {
         loginField.setText(Customer.login);
         balanceLabel.setText(Customer.balance.toString() + "$");
@@ -159,7 +140,6 @@ public class CartPageController {
         circleImage.setFill(new ImagePattern(im));
         circleImage.setEffect(new DropShadow(+25d, 0d, +2d, Color.DARKSEAGREEN));
     }
-
     private void setOrders() throws IOException {
         Order.orderList = DbHandler.getOrdersById(Customer.id);
         Order.totalCost = 0.0;
@@ -188,17 +168,15 @@ public class CartPageController {
         }
         totalCostLabel.setText("TOTAL: $" + Helper.calculateTotalCost());
     }
-
     private void setBuyImage() {
-        ImageView imv = new ImageView("C:\\Users\\magzu\\IdeaProjects\\final_project\\src\\main\\resources\\project\\files\\final_project\\img\\purchase.png");
+        ImageView imv = new ImageView(String.valueOf(StartApplication.class.getResource("img/purchase.png")));
         imv.setFitWidth(60);
         imv.setFitHeight(60);
         buyButton.setText("");
         buyButton.graphicProperty().setValue(imv);
     }
-
     private void setBackImage() {
-        ImageView imv = new ImageView("C:\\Users\\magzu\\IdeaProjects\\final_project\\src\\main\\resources\\project\\files\\final_project\\img\\back.png");
+        ImageView imv = new ImageView(String.valueOf(StartApplication.class.getResource("img/back.png")));
         imv.setFitWidth(60);
         imv.setFitHeight(60);
         backButton.setText("");
